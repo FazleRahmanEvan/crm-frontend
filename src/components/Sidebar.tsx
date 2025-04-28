@@ -1,33 +1,30 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
   return (
-    <div className="bg-gray-800 text-white w-64 min-h-screen p-6">
-      <h2 className="text-2xl font-bold mb-8">Mini-CRM</h2>
-      <ul className="space-y-6">
-        <li>
-          <Link to="/" className="hover:text-gray-400">
-            Dashboard
-          </Link>
-        </li>
-        <li>
-          <Link to="/clients" className="hover:text-gray-400">
-            Clients
-          </Link>
-        </li>
-        <li>
-          <Link to="/projects" className="hover:text-gray-400">
-            Projects
-          </Link>
-        </li>
-        <li>
-          <Link to="/reminders" className="hover:text-gray-400">
-            Reminders
-          </Link>
-        </li>
-      </ul>
-    </div>
+    <aside className="w-64 bg-white dark:bg-gray-800 border-r dark:border-gray-700 min-h-screen">
+      <div className="p-6 font-bold text-xl">Mini-CRM</div>
+      <nav className="flex flex-col space-y-2 p-4">
+        <NavLink to="/dashboard" className="sidebar-link">
+          Dashboard
+        </NavLink>
+        <NavLink to="/clients" className="sidebar-link">
+          Clients
+        </NavLink>
+        <NavLink to="/projects" className="sidebar-link">
+          Projects
+        </NavLink>
+        <NavLink to="/reminders" className="sidebar-link">
+          Reminders
+        </NavLink>
+        <NavLink to="/interactions" className="sidebar-link">
+          Interactions
+        </NavLink>
+        <NavLink to="/profile" className="sidebar-link">
+          Profile
+        </NavLink>
+      </nav>
+    </aside>
   );
 };
 
