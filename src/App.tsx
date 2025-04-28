@@ -2,6 +2,8 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
 import LoginPage from "./pages/Login";
 import SignupPage from "./pages/Signup";
+import DashboardLayout from "./layout/DashboardLayout";
+import DashboardPage from "./pages/Dashboard";
 
 const AppRoutes = () => {
   const { user } = useAuth();
@@ -17,11 +19,11 @@ const AppRoutes = () => {
       )}
 
       {/* Private Routes */}
-      {/* {user && (
+      {user && (
         <Route path="/" element={<DashboardLayout />}>
           <Route index element={<DashboardPage />} />
-
-          <Route path="clients" element={<ClientsPage />} />
+          {/* 
+          <Route path="clients" element={<ClientsPage/>} />
           <Route path="clients/create" element={<CreateClientPage />} />
           <Route path="clients/edit/:id" element={<EditClientPage />} />
 
@@ -35,9 +37,9 @@ const AppRoutes = () => {
           <Route path="interactions" element={<InteractionsPage />} />
           <Route path="interactions/create" element={<CreateInteractionPage />} />
 
-          <Route path="profile" element={<ProfilePage />} />
+          <Route path="profile" element={<ProfilePage />} /> */}
         </Route>
-      )} */}
+      )}
 
       {/* Redirect if wrong route */}
       {/* <Route path="*" element={<NotFoundPage />} /> */}
