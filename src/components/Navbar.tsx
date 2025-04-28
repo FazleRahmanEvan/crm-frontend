@@ -1,48 +1,21 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { useAuthContext } from "../contexts/AuthContext";
+import DarkModeToggle from "./DarkModeToggle";
 
 const Navbar = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen((prev) => !prev);
-  };
+  const { logout } = useAuthContext();
 
   return (
-    <header className="bg-blue-600 p-4 flex items-center justify-between text-white">
-      <div className="flex items-center">
-        <span className="text-2xl font-bold">Mini-CRM</span>
+    <header className="bg-white dark:bg-gray-800 shadow p-4 flex justify-between items-center">
+      <div className="text-lg font-semibold">Dashboard</div>
+      <div className="flex items-center gap-4">
+        <DarkModeToggle />
+        <button
+          onClick={logout}
+          className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md"
+        >
+          Logout
+        </button>
       </div>
-
-      <div className="md:hidden" onClick={toggleMobileMenu}>
-        {isMobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
-      </div>
-
-      <nav className={`${isMobileMenuOpen ? "block" : "hidden"} md:flex`}>
-        <ul className="flex space-x-4">
-          <li>
-            <Link to="/" className="hover:text-gray-300">
-              Dashboard
-            </Link>
-          </li>
-          <li>
-            <Link to="/clients" className="hover:text-gray-300">
-              Clients
-            </Link>
-          </li>
-          <li>
-            <Link to="/projects" className="hover:text-gray-300">
-              Projects
-            </Link>
-          </li>
-          <li>
-            <Link to="/reminders" className="hover:text-gray-300">
-              Reminders
-            </Link>
-          </li>
-        </ul>
-      </nav>
     </header>
   );
 };
