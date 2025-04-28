@@ -1,3 +1,46 @@
+
+📝 README.md Template
+
+# Mini-CRM for Freelancers
+
+## Summary
+This is a fullstack **Mini-CRM** application for freelancers, built with **TypeScript**. The platform enables freelancers to manage their clients, projects, interactions, reminders, and track their overall progress with a detailed dashboard. The project demonstrates the use of modern tech stacks, secure authentication, modular architecture, and responsive design.
+
+---
+
+## Tech Stack
+- **Frontend**: 
+  - React (TypeScript)
+  - TailwindCSS (for styling)
+  - React Router (for routing)
+  - Axios (for API requests)
+
+
+Frontend
+Clone the repository:
+
+ bash
+CopyEdit
+git clone <repo-url> crm-frontend
+cd crm-frontend
+
+
+Install dependencies:
+
+ bash
+CopyEdit
+npm install
+
+
+Start the React application:
+
+ bash
+CopyEdit
+npm start
+
+
+
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
