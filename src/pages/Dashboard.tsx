@@ -1,73 +1,50 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Layout from "../components/Layout";
-
-const Dashboard = () => {
-  const [dashboardData, setDashboardData] = useState<any>(null);
+// /src/pages/dashboard/DashboardPage.tsx
+import React, { useEffect, useState } from "react";
+import { clientService } from "../services/clientService";
+import { projectService } from "../services/projectService";
+import { reminderService } from "../services/reminderService";
+const DashboardPage = () => {
+  const [clientCount, setClientCount] = useState<number>(0);
+  const [projectCount, setProjectCount] = useState<number>(0);
+  const [reminderCount, setReminderCount] = useState<number>(0);
 
   useEffect(() => {
-    const fetchDashboardData = async () => {
+    const fetchData = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/dashboard`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setDashboardData(response.data);
+        const clients = await clientService.getAllClients();
+        const projects = await projectService.getAllProjects();
+        const reminders = await reminderService.getAllReminders();
+
+        setClientCount(clients.length);
+        setProjectCount(projects.length);
+        setReminderCount(reminders.length);
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching data:", error);
       }
     };
 
-    fetchDashboardData();
+    fetchData();
   }, []);
 
-  if (!dashboardData) return <div>Loading...</div>;
-
   return (
-    <Layout>
-      <div className="p-8">
-        <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
-        <div className="grid grid-cols-3 gap-8">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded shadow">
-            <h2 className="text-lg font-semibold">Total Clients</h2>
-            <p className="text-2xl">{dashboardData.totalClients}</p>
-          </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded shadow">
-            <h2 className="text-lg font-semibold">Total Projects</h2>
-            <p className="text-2xl">{dashboardData.totalProjects}</p>
-          </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded shadow">
-            <h2 className="text-lg font-semibold">Reminders Due Soon</h2>
-            <p className="text-2xl">{dashboardData.remindersDue}</p>
-          </div>
+    <div>
+      <h1 className="text-2xl font-bold mb-4">CRM</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="p-4 border rounded-lg shadow-md">
+          <h3 className="text-xl font-semibold">Total Clients</h3>
+          <p>{clientCount}</p>
         </div>
-        <div className="mt-8">
-          <h2 className="text-xl font-semibold">Projects by Status</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mt-4">
-            {dashboardData.projectsByStatus.map(
-              (status: string, index: number) => (
-                <div
-                  key={index}
-                  className="bg-white dark:bg-gray-800 p-6 rounded shadow"
-                >
-                  <h3 className="text-lg">{status}</h3>
-                  <p className="text-xl">
-                    {dashboardData.projectsByStatus[status]}
-                  </p>
-                </div>
-              )
-            )}
-          </div>
+        <div className="p-4 border rounded-lg shadow-md">
+          <h3 className="text-xl font-semibold">Total Projects</h3>
+          <p>{projectCount}</p>
+        </div>
+        <div className="p-4 border rounded-lg shadow-md">
+          <h3 className="text-xl font-semibold">Total Reminders</h3>
+          <p>{reminderCount}</p>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 };
 
-export default Dashboard;
+export default DashboardPage;

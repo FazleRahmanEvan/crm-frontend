@@ -1,39 +1,49 @@
-import React, { useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
-import Layout from "./components/Layout";
-import Dashboard from "./pages/Dashboard";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useAuth } from "./hooks/useAuth";
+import LoginPage from "./pages/Login";
+import SignupPage from "./pages/Signup";
 
-const App = () => {
-  useEffect(() => {
-    const storedTheme = localStorage.getItem("theme");
-    if (storedTheme) {
-      document.documentElement.classList.add(storedTheme);
-    } else {
-      const isDarkMode = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      ).matches;
-      if (isDarkMode) document.documentElement.classList.add("dark");
-    }
-  }, []);
+const AppRoutes = () => {
+  const { user } = useAuth();
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100">
-      <Routes>
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-        <Route
-          path="/"
-          element={
-            <Layout>
-              <Dashboard />
-            </Layout>
-          }
-        />
-      </Routes>
-    </div>
+    <Routes>
+      {/* Public Routes */}
+      {!user && (
+        <>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+        </>
+      )}
+
+      {/* Private Routes */}
+      {/* {user && (
+        <Route path="/" element={<DashboardLayout />}>
+          <Route index element={<DashboardPage />} />
+
+          <Route path="clients" element={<ClientsPage />} />
+          <Route path="clients/create" element={<CreateClientPage />} />
+          <Route path="clients/edit/:id" element={<EditClientPage />} />
+
+          <Route path="projects" element={<ProjectsPage />} />
+          <Route path="projects/create" element={<CreateProjectPage />} />
+          <Route path="projects/edit/:id" element={<EditProjectPage />} />
+
+          <Route path="reminders" element={<RemindersPage />} />
+          <Route path="reminders/create" element={<CreateReminderPage />} />
+
+          <Route path="interactions" element={<InteractionsPage />} />
+          <Route path="interactions/create" element={<CreateInteractionPage />} />
+
+          <Route path="profile" element={<ProfilePage />} />
+        </Route>
+      )} */}
+
+      {/* Redirect if wrong route */}
+      {/* <Route path="*" element={<NotFoundPage />} /> */}
+      {!user && <Route path="*" element={<Navigate to="/login" replace />} />}
+    </Routes>
   );
 };
 
-export default App;
+export default AppRoutes;

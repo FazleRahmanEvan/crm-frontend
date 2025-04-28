@@ -1,9 +1,9 @@
-export interface LoginData {
+export interface LoginFormValues {
   email: string;
   password: string;
 }
 
-export interface SignupData {
+export interface SignupFormValues {
   email: string;
   password: string;
   confirmPassword: string;
@@ -11,5 +11,9 @@ export interface SignupData {
 
 export interface AuthResponse {
   token: string;
-  user: User;
+  user: {
+    _id: string;
+    email: string;
+    password: string;
+  };
 }

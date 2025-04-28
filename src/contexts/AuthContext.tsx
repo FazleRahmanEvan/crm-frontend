@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { User } from "../types/user";
 import { authService } from "../services/authService";
 
@@ -9,7 +9,9 @@ interface AuthContextType {
   logout: () => void;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined
+);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
@@ -20,15 +22,25 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const login = async (email: string, password: string) => {
-    const userData = await authService.login(email, password);
-    setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData));
+    try {
+      const userData = await authService.login(email, password);
+      setUser(userData); // Ensure userData is of type User
+      localStorage.setItem("user", JSON.stringify(userData));
+    } catch (error) {
+      console.error("Login failed", error);
+      // Handle error (e.g., show a message to the user)
+    }
   };
 
   const signup = async (email: string, password: string) => {
-    const userData = await authService.signup(email, password);
-    setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData));
+    try {
+      const userData = await authService.signup(email, password);
+      setUser(userData); // Ensure userData is of type User
+      localStorage.setItem("user", JSON.stringify(userData));
+    } catch (error) {
+      console.error("Signup failed", error);
+      // Handle error (e.g., show a message to the user)
+    }
   };
 
   const logout = () => {
@@ -43,6 +55,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuthContext = () => {
   const context = useContext(AuthContext);
   if (!context) {
