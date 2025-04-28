@@ -18,28 +18,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    if (storedUser) setUser(JSON.parse(storedUser));
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
   }, []);
 
   const login = async (email: string, password: string) => {
     try {
-      const userData = await authService.login(email, password);
-      setUser(userData); // Ensure userData is of type User
-      localStorage.setItem("user", JSON.stringify(userData));
+      const user = await authService.login(email, password);
+      setUser(user);
+      localStorage.setItem("user", JSON.stringify(user));
     } catch (error) {
       console.error("Login failed", error);
-      // Handle error (e.g., show a message to the user)
     }
   };
 
   const signup = async (email: string, password: string) => {
     try {
-      const userData = await authService.signup(email, password);
-      setUser(userData); // Ensure userData is of type User
-      localStorage.setItem("user", JSON.stringify(userData));
+      const user = await authService.signup(email, password);
+      setUser(user);
+      localStorage.setItem("user", JSON.stringify(user));
     } catch (error) {
       console.error("Signup failed", error);
-      // Handle error (e.g., show a message to the user)
     }
   };
 

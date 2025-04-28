@@ -1,4 +1,3 @@
-// authService.ts
 import API from "./api";
 import { AuthResponse } from "../types/auth";
 
@@ -9,10 +8,7 @@ export const authService = {
       password,
     });
     localStorage.setItem("token", data.token);
-    return {
-      token: data.token,
-      userId: data.user._id,
-    };
+    return data.user; // 🔥 return the full user object
   },
 
   signup: async (email: string, password: string) => {
@@ -21,9 +17,6 @@ export const authService = {
       password,
     });
     localStorage.setItem("token", data.token);
-    return {
-      token: data.token,
-      userId: data.user._id, // you can choose other fields as needed
-    };
+    return data.user; // 🔥 return the full user object
   },
 };

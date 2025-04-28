@@ -6,14 +6,18 @@ export interface LoginFormValues {
 export interface SignupFormValues {
   email: string;
   password: string;
-  confirmPassword: string;
 }
 
 export interface AuthResponse {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  user: any;
   token: string;
-  user: {
-    _id: string;
-    email: string;
-    password: string;
-  };
+  userId: string;
+}
+
+export interface User {
+  _id: string;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
 }
