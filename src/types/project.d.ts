@@ -2,7 +2,7 @@ export interface Project {
   _id: string;
   clientId: string;
   title: string;
-  budget: number;
+  budget: string | number;
   deadline: string;
   status: "Not Started" | "In Progress" | "Completed";
   user: string;
