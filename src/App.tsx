@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
-import Sidebar from "./components/Sidebar";
+import Layout from "./components/Layout";
+import Dashboard from "./pages/Dashboard";
 
 const App = () => {
   useEffect(() => {
@@ -18,11 +19,18 @@ const App = () => {
   }, []);
 
   return (
-    <div>
-      <Sidebar></Sidebar>
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100">
       <Routes>
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route
+          path="/"
+          element={
+            <Layout>
+              <Dashboard />
+            </Layout>
+          }
+        />
       </Routes>
     </div>
   );

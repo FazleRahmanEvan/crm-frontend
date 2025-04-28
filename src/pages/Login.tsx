@@ -25,7 +25,7 @@ const Login = () => {
         formData
       );
       localStorage.setItem("token", response.data.token); // Save the token in localStorage
-      navigate("/dashboard"); // Redirect to dashboard after successful login
+      navigate("/"); // Redirect to dashboard after successful login
     } catch (error) {
       console.error(error);
     }
@@ -54,6 +54,7 @@ const Login = () => {
           placeholder="Password"
           className="w-full p-3 mb-4 border rounded"
         />
+
         <button
           type="submit"
           className="w-full p-3 bg-blue-500 text-white rounded hover:bg-blue-600"

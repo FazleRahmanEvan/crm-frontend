@@ -26,7 +26,7 @@ const Signup = () => {
         `${import.meta.env.VITE_API_BASE_URL}/auth/signup`,
         formData
       );
-      navigate("/login"); // Redirect to login page after successful signup
+      navigate("/"); // Redirect to login page after successful signup
     } catch (error) {
       console.error(error);
     }
