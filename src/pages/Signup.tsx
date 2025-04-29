@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
 import { SignupFormValues } from "../types/auth";
 import { authService } from "../services/authService";
+import { useAuthContext } from "../contexts/AuthContext";
 
 const SignupPage = () => {
-  const { login } = useAuth();
+  const { login } = useAuthContext();
   const navigate = useNavigate();
   const [formData, setFormData] = useState<SignupFormValues>({
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -27,8 +28,8 @@ const SignupPage = () => {
     }
 
     try {
-      const { email, password } = formData;
-      const response = await authService.signup(email, password);
+      const { name, email, password } = formData;
+      const response = await authService.signup(name, email, password);
 
       login(response.token, response.userId);
       navigate("/");
@@ -48,6 +49,20 @@ const SignupPage = () => {
         </h2>
 
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+
+        <div className="mb-4">
+          <label className="block mb-1 text-gray-700 dark:text-gray-300">
+            Name
+          </label>
+          <input
+            type="name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            className="w-full p-2 border rounded dark:bg-gray-700 dark:text-white"
+            required
+          />
+        </div>
 
         <div className="mb-4">
           <label className="block mb-1 text-gray-700 dark:text-gray-300">
@@ -97,6 +112,19 @@ const SignupPage = () => {
         >
           Sign Up
         </button>
+
+        {/* Login Link */}
+        <div className="mt-4 text-center">
+          <span className="text-gray-700 dark:text-gray-300">
+            Already have an account?{" "}
+            <button
+              onClick={() => navigate("/login")}
+              className="text-blue-600 hover:text-blue-700 font-semibold"
+            >
+              Login
+            </button>
+          </span>
+        </div>
       </form>
     </div>
   );

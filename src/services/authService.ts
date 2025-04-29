@@ -7,16 +7,25 @@ export const authService = {
       email,
       password,
     });
-    localStorage.setItem("token", data.token);
-    return data.user; // 🔥 return the full user object
+
+    // Save both token and user safely
+    if (data?.token) {
+      localStorage.setItem("token", data.token);
+    }
+    if (data?.user) {
+      localStorage.setItem("user", JSON.stringify(data.user));
+    }
+
+    return data.user;
   },
 
-  signup: async (email: string, password: string) => {
+  signup: async (name: string, email: string, password: string) => {
     const { data } = await API.post<AuthResponse>("/auth/signup", {
+      name,
       email,
       password,
     });
     localStorage.setItem("token", data.token);
-    return data.user; // 🔥 return the full user object
+    return { token: data.token, userId: data.user._id }; // or return full user if needed
   },
 };

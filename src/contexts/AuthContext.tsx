@@ -5,7 +5,7 @@ import { authService } from "../services/authService";
 interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
-  signup: (email: string, password: string) => Promise<void>;
+  signup: (name: string, email: string, password: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -19,8 +19,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    if (storedUser && storedUser !== "undefined") {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (e) {
+        console.error("Failed to parse user from localStorage:", e);
+        localStorage.removeItem("user"); // Cleanup invalid entry
+      }
     }
   }, []);
 
@@ -34,11 +39,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const signup = async (email: string, password: string) => {
+  const signup = async (name: string, email: string, password: string) => {
     try {
-      const user = await authService.signup(email, password);
-      setUser(user);
-      localStorage.setItem("user", JSON.stringify(user));
+      await authService.signup(name, email, password);
+      // Optionally redirect to login page
     } catch (error) {
       console.error("Signup failed", error);
     }
@@ -47,6 +51,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
   };
 
   return (
